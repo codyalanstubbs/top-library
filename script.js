@@ -1,13 +1,19 @@
-function Book(title, author, pages, read) {
+let myLibrary = [
+
+];
+
+function Book(title, author, read, category, subcategory, found, notes) {
     this.title = title;
     this.author = author;
-    this.pages = pages;
     this.read = read;
-    this.info = function() {
-       return this.title + " by " +
-        this.author + ", " +
-        this.pages + " pages, " + read;
-    }
+    this.category = category;
+    this.subcategory = subcategory;
+    this.found = found;
+    this.notes = notes;
 }
-const cd = new Book("Cats and Dogs", "Harry Ladder", "9303", "not read")
-alert(cd.info());
+
+function addBookToLibrary(title, author, read, category, subcategory, found, notes) {
+    myLibrary.push(
+        new Book(title, author, read, category, subcategory, found, notes)
+    )
+}
