@@ -1,3 +1,16 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+html {
+    background-color: black;
+    color: #a78bfa;
+}
+
+h1 {
+    color: #7c3aed;
+}
+
 .add-book-form {
     display: flex;
     flex-direction: column;
@@ -11,6 +24,10 @@
 
 .hidden {
     display: none;
+}
+
+input {
+    background-color: #d2c3ff;
 }
 
 .input-container {
@@ -33,38 +50,69 @@
 }
 
 .book {
-    background-color: antiquewhite;
     color: black;
     height: auto;
-    width: 100%;
     padding: 12.5px;
     display: flex;
     justify-content: space-evenly;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #dbd1fc;
 }
 
 thead > tr {
     height: auto;
-    width: 100%;
     padding: 12.5px;
     display: flex;
     justify-content: space-evenly;
-    background: pink;
-    border-bottom: 1px solid black;
+    background: #2e2e2e;
+    color: #a78bfa;
+    border-bottom: 1px solid #dbd1fc;
     border-radius: 10px 10px 0px 0px;
+}
+
+tbody > tr:nth-of-type(odd) {
+    background-color: #a78bfa;
+}
+
+tbody > tr:nth-of-type(even) {
+    background-color: #a680e8;
+}
+
+tbody > tr:last-of-type {
+    
+    border-radius: 0px 0px 10px 10px;
 }
 
 td,
 th {
-    width: 25%;
     margin: 0 10px;
     text-align: left;
 }
 
+.title {
+    width: 40%;
+}
+
+.author {
+    width: 40%;
+}
+
+.read,
+.delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+}
+
 .delete-btn {
     font-size: 1.5em;
-    background: none;
+    background: #850000;
+    border-radius: 5px;
     border: none;
+}
+
+.delete-btn:hover {
+    background: red;
 }
 
 .delete-btn:hover,
@@ -76,11 +124,20 @@ th {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: grey;
+    background-color: #e5dcff;
 }
+
+.read-btn:hover {
+    background-color: #457845;
+}
+
 
 .read-btn.read {
     background-color: green;
+}
+
+.read-btn.read:hover {
+    background-color: #e5dcff;
 }
 
 .display-form-btn {
@@ -90,4 +147,21 @@ th {
     border-radius: 25px;
     margin: 25px;
     background-color: green;
+    color: white;
+}
+
+.add-book-btn {
+    border: 0px;
+    border-radius: 25px;
+    height: 50px;
+    width: 100px;
+    background-color: green;
+    color: white;
+    align-self: center;
+}
+
+.display-form-btn:hover, 
+.add-book-btn:hover {
+    background-color: #468346;
+    border: 1px solid white;
 }
