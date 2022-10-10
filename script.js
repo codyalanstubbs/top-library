@@ -73,11 +73,31 @@ function addBookToLibrary(book) {
     for (let i = 0; i < Object.keys(book).length; i++) {
         let bookDetail = document.createElement("td");
         bookDetail.className = bookKeys[i];
-        bookDetail.textContent = book[bookKeys[i]];
+
+        // Create emoji buttons for read attribute only
+        if (bookDetail.className === "read") {
+
+            let readButton = document.createElement("button");
+
+            // Change emoji displaying depending on read status
+            if ( book[bookKeys[i]] == "Read") {
+                readButton.classList = "read-btn";
+                readButton.textContent = "✔️";
+            } else {
+                readButton.classList = "read-btn grey";
+                readButton.textContent = "O";
+            }
+            
+            bookDetail.appendChild(readButton);
+        } else {
+            bookDetail.textContent = book[bookKeys[i]];
+        }
+
         newlyAddedBook.appendChild(bookDetail);
     }
 
     let deleteButtonCell = document.createElement("td");
+    deleteButtonCell.classList = "delete"
     let bookDeleteButton = document.createElement("button");
     bookDeleteButton.classList = "delete-btn";
     bookDeleteButton.textContent = "X";
