@@ -9,6 +9,10 @@
     border-radius: 25px;
 }
 
+.hidden {
+    display: none;
+}
+
 .input-container {
     display: flex;
     justify-content: space-between;
@@ -34,4 +38,13 @@
     height: auto;
     width: 250px;
     padding: 25px;
+}
+
+.add-btn {
+    height: 70px;
+    width: 250px;
+    border: 0px;
+    border-radius: 25px;
+    margin: 25px;
+    background-color: green;
 }
