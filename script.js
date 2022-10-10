@@ -1,44 +1,23 @@
 let myLibrary = [
-
+    new Book("Antifragility", "Nassim Nicholas Taleb", "Read"),
+    new Book("The Hobbit", "J.R.R. Tolkien", "Read"),
+    new Book("Theory of Instruction", "Siegfried Engelmann and Douglas Carnine", "Not Read")
 ];
 
 const bookShelf = document.querySelector(".book-shelf");
-let numBooksOnShelf = document.querySelectorAll(".book").length;
+let numBooksOnShelf = 0;
+const displayFormBtn = document.querySelector(".display-form-btn");
+const addBookForm = document.querySelector(".add-book-form");
 const addBtn = document.querySelector(".add-book-btn");
 
 const title =document.querySelector("#title");
 const author = document.querySelector("#author");
 const radioResponses = document.getElementsByName('read');
 
-function Book(title, author, read) {
-    this.title = title;
-    this.author = author;
-    this.read = read;
-}
-
-function addBookToLibrary(title, author, read) {
-    // Add book to library array
-    let newBook = new Book(title, author, read);
-    myLibrary.push(newBook)
-    
-    // Build book container and add to DOM
-    let bookDiv = document.createElement("tr");
-    bookDiv.className = "book";
-    numBooksOnShelf += 1;
-    bookDiv.setAttribute('id', "book-" + numBooksOnShelf);
-    bookShelf.appendChild(bookDiv);
-
-    // Add book details to book container
-    let newlyAddedBook = document.querySelector("#book-" + numBooksOnShelf);
-    let bookKeys = Object.keys(newBook);
-    for (let i = 0; i < Object.keys(newBook).length; i++) {
-        let bookDetail = document.createElement("td");
-        bookDetail.className = bookKeys[i];
-        bookDetail.textContent = newBook[bookKeys[i]];
-        newlyAddedBook.appendChild(bookDetail);
-    }
-}
-
+// Build bookshelf UI from current books
+myLibrary.forEach((book) => {
+    addBookToLibrary(book);
+})
 
 addBtn.addEventListener('click', (e) => {
 
@@ -51,8 +30,50 @@ addBtn.addEventListener('click', (e) => {
         }
     }
 
+    let newBook = new Book(title.value, author.value, radioResult);
     // Add book to library
-    addBookToLibrary(title.value, author.value, radioResult);
+    addBookToLibrary(newBook);
 
 
 })
+
+displayFormBtn.addEventListener('click', (e) => {
+    addBookForm.classList = 'add-book-form';
+    displayFormBtn.classList = 'hidden';
+})
+
+function Book(title, author, read) {
+    this.title = title;
+    this.author = author;
+    this.read = read;
+}
+
+function addBookToLibrary(book) {
+    // Add book to library array
+    myLibrary.push(book)
+    
+    // Build book container and add to DOM
+    let bookRow = document.createElement("tr");
+    bookRow.className = "book";
+    numBooksOnShelf += 1;
+    bookRow.setAttribute('id', "book-" + numBooksOnShelf);
+    bookShelf.appendChild(bookRow);
+
+    // Add book details to book container
+    let newlyAddedBook = document.querySelector("#book-" + numBooksOnShelf);
+    let bookKeys = Object.keys(book);
+    for (let i = 0; i < Object.keys(book).length; i++) {
+        let bookDetail = document.createElement("td");
+        bookDetail.className = bookKeys[i];
+        bookDetail.textContent = book[bookKeys[i]];
+        newlyAddedBook.appendChild(bookDetail);
+    }
+
+    let deleteButtonCell = document.createElement("td");
+    let bookDeleteButton = document.createElement("button");
+    bookDeleteButton.classList = "delete-btn";
+    bookDeleteButton.textContent = "X";
+    deleteButtonCell.appendChild(bookDeleteButton);
+    newlyAddedBook.appendChild(deleteButtonCell);
+}
+
