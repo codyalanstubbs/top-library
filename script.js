@@ -10,7 +10,7 @@ const displayFormBtn = document.querySelector(".display-form-btn");
 const addBookForm = document.querySelector(".add-book-form");
 const addBtn = document.querySelector(".add-book-btn");
 
-const title =document.querySelector("#title");
+const title = document.querySelector("#title");
 const author = document.querySelector("#author");
 const radioResponses = document.getElementsByName('read');
 
@@ -21,18 +21,26 @@ myLibrary.forEach((book) => {
 
 addBtn.addEventListener('click', (e) => {
 
-    // Find the radio response
-    let radioResult;
+    if (title.value === '' || author.value === '') {
+        // Don't add book to library
+    } else {
+        // Find the radio response
+        let radioResult;
 
-    for (let i = 0; i < radioResponses.length; i++) {
-        if (radioResponses[i].checked) {
-            radioResult = radioResponses[i].value;
+        for (let i = 0; i < radioResponses.length; i++) {
+            if (radioResponses[i].checked) {
+                radioResult = radioResponses[i].value;
+            }
+        }
+
+        if (radioResult === '' || radioResult === null) {
+            // Don't add book to library
+        } else {
+            // Add book to library
+            let newBook = new Book(title.value, author.value, radioResult);
+            addBookToLibrary(newBook);
         }
     }
-
-    let newBook = new Book(title.value, author.value, radioResult);
-    // Add book to library
-    addBookToLibrary(newBook);
 
 
 })
@@ -51,7 +59,7 @@ function Book(title, author, read) {
 function addBookToLibrary(book) {
     // Add book to library array
     myLibrary.push(book)
-    
+
     // Build book container and add to DOM
     let bookRow = document.createElement("tr");
     bookRow.className = "book";
@@ -76,4 +84,3 @@ function addBookToLibrary(book) {
     deleteButtonCell.appendChild(bookDeleteButton);
     newlyAddedBook.appendChild(deleteButtonCell);
 }
-
