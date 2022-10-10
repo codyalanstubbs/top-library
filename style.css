@@ -35,29 +35,52 @@
 .book {
     background-color: antiquewhite;
     color: black;
-    border-radius: 25px;
     height: auto;
     width: 100%;
-    padding: 25px;
-}
-
-tr {
+    padding: 12.5px;
     display: flex;
     justify-content: space-evenly;
+    border-bottom: 1px solid black;
 }
 
-td {
+thead > tr {
+    height: auto;
+    width: 100%;
+    padding: 12.5px;
+    display: flex;
+    justify-content: space-evenly;
+    background: pink;
+    border-bottom: 1px solid black;
+    border-radius: 10px 10px 0px 0px;
+}
+
+td,
+th {
     width: 25%;
     margin: 0 10px;
     text-align: left;
 }
 
-.delete-btn,
-.read-btn {
+.delete-btn {
     font-size: 1.5em;
     background: none;
     border: none;
-    width: 100%;
+}
+
+.delete-btn:hover,
+.read-btn:hover {
+    cursor: pointer;
+}
+
+.read-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: grey;
+}
+
+.read-btn.read {
+    background-color: green;
 }
 
 .display-form-btn {

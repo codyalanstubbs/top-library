@@ -41,9 +41,9 @@ addBtn.addEventListener('click', (e) => {
             addBookToLibrary(newBook);
         }
     }
-
-
 })
+
+
 
 displayFormBtn.addEventListener('click', (e) => {
     addBookForm.classList = 'add-book-form';
@@ -81,13 +81,11 @@ function addBookToLibrary(book) {
 
             // Change emoji displaying depending on read status
             if ( book[bookKeys[i]] == "Read") {
-                readButton.classList = "read-btn";
-                readButton.textContent = "✔️";
+                readButton.classList = "read-btn read";
             } else {
-                readButton.classList = "read-btn grey";
-                readButton.textContent = "O";
+                readButton.classList = "read-btn";
             }
-            
+            readButton.setAttribute('id', numBooksOnShelf);
             bookDetail.appendChild(readButton);
         } else {
             bookDetail.textContent = book[bookKeys[i]];
@@ -101,6 +99,17 @@ function addBookToLibrary(book) {
     let bookDeleteButton = document.createElement("button");
     bookDeleteButton.classList = "delete-btn";
     bookDeleteButton.textContent = "X";
+    bookDeleteButton.setAttribute('id', numBooksOnShelf);
     deleteButtonCell.appendChild(bookDeleteButton);
     newlyAddedBook.appendChild(deleteButtonCell);
+    
+    // Add event listener to the added button
+    let readButtons = document.querySelectorAll(".read-btn");
+    readButtons.forEach((button) => {
+        if (button.id == numBooksOnShelf) {
+            button.addEventListener('click', (e) => {
+                button.classList.toggle("read");
+            });
+        }
+    })
 }
