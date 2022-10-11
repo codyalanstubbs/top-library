@@ -38,7 +38,17 @@ addBtn.addEventListener('click', (e) => {
         } else {
             // Add book to library
             let newBook = new Book(title.value, author.value, radioResult);
+            myLibrary.push(newBook);
             addBookToLibrary(newBook);
+
+            // Remove inputs 
+            title.value = '';
+            author.value = '';
+            for (let i = 0; i < radioResponses.length; i++) {
+                if (radioResponses[i].checked) {
+                    radioResponses[i].checked = false;
+                }
+            }
         }
     }
 })
@@ -57,13 +67,11 @@ function Book(title, author, read) {
 }
 
 function addBookToLibrary(book) {
-    // Add book to library array
-    myLibrary.push(book)
 
     // Build book container and add to DOM
     let bookRow = document.createElement("tr");
+    let bookIdNumber = numBooksOnShelf;
     bookRow.className = "book";
-    numBooksOnShelf += 1;
     bookRow.setAttribute('id', "book-" + numBooksOnShelf);
     bookShelf.appendChild(bookRow);
 
@@ -80,12 +88,15 @@ function addBookToLibrary(book) {
             let readButton = document.createElement("button");
 
             // Change emoji displaying depending on read status
-            if ( book[bookKeys[i]] == "Read") {
+            if (book[bookKeys[i]] == "Read") {
                 readButton.classList = "read-btn read";
             } else {
                 readButton.classList = "read-btn";
             }
             readButton.setAttribute('id', numBooksOnShelf);
+            readButton.addEventListener('click', (e) => {
+                readButton.classList.toggle("read");
+            });
             bookDetail.appendChild(readButton);
         } else {
             bookDetail.textContent = book[bookKeys[i]];
@@ -94,22 +105,41 @@ function addBookToLibrary(book) {
         newlyAddedBook.appendChild(bookDetail);
     }
 
+    // Build book's delete button
     let deleteButtonCell = document.createElement("td");
     deleteButtonCell.classList = "delete"
     let bookDeleteButton = document.createElement("button");
     bookDeleteButton.classList = "delete-btn";
     bookDeleteButton.textContent = "X";
     bookDeleteButton.setAttribute('id', numBooksOnShelf);
+    bookDeleteButton.addEventListener('click', (e) => {
+        deleteBook(bookDeleteButton.id);
+        updateBookIds();
+    });
+
     deleteButtonCell.appendChild(bookDeleteButton);
     newlyAddedBook.appendChild(deleteButtonCell);
-    
-    // Add event listener to the added button
-    let readButtons = document.querySelectorAll(".read-btn");
-    readButtons.forEach((button) => {
-        if (button.id == numBooksOnShelf) {
-            button.addEventListener('click', (e) => {
-                button.classList.toggle("read");
-            });
+
+    numBooksOnShelf += 1;
+}
+
+function deleteBook(bookId) {
+    let books = document.querySelectorAll(".book");
+    books.forEach((book) => {
+        if (book.id == "book-" + bookId) {
+            book.remove();
+            myLibrary.splice(book.id, 1);
         }
     })
+}
+
+function updateBookIds() {
+    let updatedBooks = document.querySelectorAll(".book");
+    let updatedDelBtns = document.querySelectorAll(".delete-btn");
+    let updatedReadBtns = document.querySelectorAll(".read-btn");
+    for (let i = 0; i < updatedBooks.length; i++) {
+        updatedBooks[i].setAttribute('id', 'book-'+i);
+        updatedDelBtns[i].setAttribute('id', i);
+        updatedReadBtns[i].setAttribute('id', i);
+    }
 }
