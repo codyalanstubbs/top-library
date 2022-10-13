@@ -1,3 +1,11 @@
+class Book {
+    constructor(title, author, read) {
+        this.title = title;
+        this.author = author;
+        this.read = read;
+    }
+}
+
 let myLibrary = [
     new Book("Antifragility", "Nassim Nicholas Taleb", "Read"),
     new Book("The Hobbit", "J.R.R. Tolkien", "Read"),
@@ -59,12 +67,6 @@ displayFormBtn.addEventListener('click', (e) => {
     addBookForm.classList = 'add-book-form';
     displayFormBtn.classList = 'hidden';
 })
-
-function Book(title, author, read) {
-    this.title = title;
-    this.author = author;
-    this.read = read;
-}
 
 function addBookToLibrary(book) {
 
