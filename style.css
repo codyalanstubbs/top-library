@@ -30,6 +30,14 @@ input {
     background-color: #d2c3ff;
 }
 
+.error {
+    color: #ff7474;
+    text-align: center;
+}
+.empty {
+    background-color: #ff0000;
+}
+
 .input-container {
     display: flex;
     justify-content: space-between;

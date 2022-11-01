@@ -16,6 +16,7 @@ const bookShelf = document.querySelector(".book-shelf");
 let numBooksOnShelf = 0;
 const displayFormBtn = document.querySelector(".display-form-btn");
 const addBookForm = document.querySelector(".add-book-form");
+const errorMessage = document.querySelector(".error");
 const addBtn = document.querySelector(".add-book-btn");
 
 const title = document.querySelector("#title");
@@ -26,38 +27,67 @@ const radioResponses = document.getElementsByName('read');
 myLibrary.forEach((book) => {
     addBookToLibrary(book);
 })
+function checkIfEmpty(inputElement) {
+    if (inputElement.value === '') {
+        if (!inputElement.classList.contains("empty")) {
+            inputElement.classList.toggle("empty");
+        } 
+    } else {
+        inputElement.classList.remove("empty");
+    }
+}
+function addEmptyFocusOutEvent(inputElement) {
+    inputElement.addEventListener("focusout", (e) => {
+        checkIfEmpty(inputElement);
+    })
+}
+
+[title, author].forEach(inputElement => addEmptyFocusOutEvent(inputElement));
 
 addBtn.addEventListener('click', (e) => {
+    // Find the radio response
+    let radioResult;
 
-    if (title.value === '' || author.value === '') {
-        // Don't add book to library
+    for (let i = 0; i < radioResponses.length; i++) {
+        if (radioResponses[i].checked) {
+            radioResult = radioResponses[i].value;
+        }
+    }
+    
+    if (author.value === '' || title.value === '') {
+        [title, author].forEach(inputElement => checkIfEmpty(inputElement));
+    } 
+    
+    if (radioResult === undefined) {
+        if (!document.querySelector(".readStatus > fieldset > *").classList.contains("empty")) {
+            document.querySelector(".readStatus > fieldset > *").classList.toggle("empty");
+        }
+    } 
+
+    if (author.value === '' || title.value === '' || radioResult === undefined) {
+        // Do nothing
+        errorMessage.textContent = "Please fill out each input below."
+        addBookForm.insertBefore(errorMessage, addBookForm.firstChild)
     } else {
-        // Find the radio response
-        let radioResult;
+        errorMessage.textContent = ""
+        title.classList.remove("empty");
+        author.classList.remove("empty");
+        document.querySelector(".readStatus > fieldset > *").classList.remove("empty");
 
+        // Add book to library
+        let newBook = new Book(title.value, author.value, radioResult);
+        myLibrary.push(newBook);
+        addBookToLibrary(newBook);
+
+        // Remove inputs 
+        title.value = '';
+        author.value = '';
         for (let i = 0; i < radioResponses.length; i++) {
             if (radioResponses[i].checked) {
-                radioResult = radioResponses[i].value;
+                radioResponses[i].checked = false;
             }
         }
 
-        if (radioResult === '' || radioResult === null) {
-            // Don't add book to library
-        } else {
-            // Add book to library
-            let newBook = new Book(title.value, author.value, radioResult);
-            myLibrary.push(newBook);
-            addBookToLibrary(newBook);
-
-            // Remove inputs 
-            title.value = '';
-            author.value = '';
-            for (let i = 0; i < radioResponses.length; i++) {
-                if (radioResponses[i].checked) {
-                    radioResponses[i].checked = false;
-                }
-            }
-        }
     }
 })
 
@@ -140,7 +170,7 @@ function updateBookIds() {
     let updatedDelBtns = document.querySelectorAll(".delete-btn");
     let updatedReadBtns = document.querySelectorAll(".read-btn");
     for (let i = 0; i < updatedBooks.length; i++) {
-        updatedBooks[i].setAttribute('id', 'book-'+i);
+        updatedBooks[i].setAttribute('id', 'book-' + i);
         updatedDelBtns[i].setAttribute('id', i);
         updatedReadBtns[i].setAttribute('id', i);
     }
